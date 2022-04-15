@@ -5,9 +5,8 @@ var $car = document.querySelector('#car');
 function Car(carElement) {
   this.dom = carElement;
   this.direction = 0;
-  this.rotation = 0;
-  this.gear = 0;
-  this.speed = 2;
+  this.moving = false;
+  this.speed = 15;
   this.position = {
     x: 0,
     y: 0
@@ -17,21 +16,25 @@ function Car(carElement) {
 var CarProto = {
   turn: function (desiredDirection) {
     this.direction = desiredDirection;
-    this.update();
   },
   update: function () {
-    this.rotation = this.direction;
+    if (this.moving) {
+      this.move();
+    }
     this.dom.style.transform =
-      'rotate(' + this.rotation + 'deg) ' +
+      'rotate(' + this.direction + 'deg) ' +
       'translate(' + this.position.x + 'px, ' + this.position.y + 'px) '
     ;
   },
   move: function () {
     this.position.x += this.speed;
-    this.update();
   },
-  toggleGear: function () {
-    setInterval(this.move.bind(this), 16);
+  toggleMoving: function () {
+    if (this.moving) {
+      this.moving = false;
+    } else {
+      this.moving = true;
+    }
   }
 };
 
@@ -55,7 +58,7 @@ var inputHandler = {
   turnCarDown: { key: 'ArrowDown', action: function () { player.turn(90); } },
   turnCarUp: { key: 'ArrowUp', action: function () { player.turn(270); } },
   turnCarRight: { key: 'ArrowRight', action: function () { player.turn(0); } },
-  toggleGear: { key: ' ', action: function () { player.toggleGear(); } }
+  toggleMoving: { key: ' ', action: function () { player.toggleMoving(); } }
 };
 
 function inputListener(event) {
@@ -68,3 +71,10 @@ function inputListener(event) {
 }
 
 document.addEventListener('keydown', inputListener);
+
+// ! game loop
+// eslint-disable-next-line no-unused-vars
+var gameTimer = setInterval(gameLoop, 16);
+function gameLoop() {
+  player.update();
+}
