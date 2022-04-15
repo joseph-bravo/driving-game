@@ -1,5 +1,6 @@
 :root {
   --bg-color: lightgreen;
+  --turn-transition: transform 100ms;
 }
 
 body {
@@ -8,4 +9,8 @@ body {
 
 img {
   width: 200px;
+}
+
+#car {
+  transition: var(--turn-transition);
 }
