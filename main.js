@@ -6,7 +6,7 @@ function Car(carElement) {
   this.dom = carElement;
   this.direction = 0;
   this.moving = false;
-  this.speed = 2;
+  this.speed = 15;
   this.position = {
     x: 0,
     y: 0
