@@ -12,5 +12,6 @@ img {
 }
 
 #car {
+  display: absolute;
   transition: var(--turn-transition);
 }
